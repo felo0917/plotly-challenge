@@ -59,17 +59,19 @@ function createCharts(id){
 
         //Bubble Chart
         let trace3 = {
-            x: firstItem.otu_ids,
-            y: firstItem.sample_values,
+            x: firstItem.otu_ids.slice(0,10),
+            y: firstItem.sample_values.slice(0,10),
+            text: firstItem.otu_labels.slice(0,10),
             mode: 'markers',
             marker: {
                 size: firstItem.sample_values,
-            }
+            },
+            
         };
         let dataPlot3 = [trace3];
 
         let layout3 = {
-            title: "Top 10 Barteria - All Subjects",
+            title: "Count of Bacteria by Family - Selected Subjects",
         };
 
     
@@ -78,7 +80,23 @@ function createCharts(id){
     });
 }
 
-//Create function to obtain all data from samples.json
+//Create funtion to obtain data from samples.json and add to Demographic info
+function getData() {
+    d3.json("data/samples.json").then((data) => {
+        let metadata = data.metadata.filter(s => s.id == id);
+        console.log(metadata)
+        let firstMeta = metadata[0]
+        let demographInfo = d3.select("#sample-metadata");
+        data.metadata.forEach((subject) => {
+            demographInfo.append("panel-body").text(subject)
+            .property("value", subject)
+        
+        });
+        
+    });
+};
+
+//Create function to obtain data from samples.json and add to dropdown
 function findData() {
     d3.json("data/samples.json").then((data) => {
         console.log(data)
