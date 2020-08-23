@@ -11,12 +11,12 @@ function createCharts(id){
             text: firstItem.otu_labels.slice(0,10).reverse(),
             type: "bar",
             orientation: "h"
-        }
+        };
         let dataPlot = [trace1];
 
         let layout = {
             title: "Top 10 Barteria - Selected Subject",
-        }
+        };
 
         //Plot data with plotly method
         Plotly.newPlot("bar1", dataPlot, layout);
@@ -38,7 +38,7 @@ function createCharts(id){
 
             })
                      
-        })
+        });
         console.log(sumArray)
 
         let trace2 = {
@@ -47,19 +47,38 @@ function createCharts(id){
             text: firstItem.otu_labels.slice(0,10).reverse(),
             type: "bar",
             orientation: "h"
-        }
+        };
         let dataPlot2 = [trace2];
 
         let layout2 = {
             title: "Top 10 Barteria - All Subjects",
-        }
+        };
 
     
         Plotly.newPlot("bar2", dataPlot2, layout2);
 
+        //Bubble Chart
+        let trace3 = {
+            x: firstItem.otu_ids,
+            y: firstItem.sample_values,
+            mode: 'markers',
+            marker: {
+                size: firstItem.sample_values,
+            }
+        };
+        let dataPlot3 = [trace3];
 
-    })
+        let layout3 = {
+            title: "Top 10 Barteria - All Subjects",
+        };
+
+    
+        Plotly.newPlot("bubble", dataPlot3, layout3);
+
+    });
 }
+
+//Create function to obtain all data from samples.json
 function findData() {
     d3.json("data/samples.json").then((data) => {
         console.log(data)
